@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сравнительный анализ автомобилей Mercedes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+           /* Основные цвета бренда */
+    --primary: #00a8e8;        /* Основной синий цвет */
+    --primary-dark: #0090c9;   /* Темный оттенок основного цвета */
+    --accent: #bb86fc;         /* Акцентный фиолетовый цвет */
+    
+    /* Темная цветовая палитра */
+    --dark-bg: #121212;        /* Фон страницы */
+    --dark-surface: #1e1e1e;   /* Поверхности (навигация, футер) */
+    --dark-card: #252525;      /* Карточки контента */
+    
+    /* Цвета текста */
+    --text-primary: #e0e0e0;   /* Основной текст */
+    --text-secondary: #a0a0a0; /* Вторичный текст */
+    
+    /* Тени */
+    --shadow: rgba(0, 0, 0, 0.3);      /* Основная тень */
+    --shadow-light: rgba(0, 0, 0, 0.2); /* Легкая тень */
+        }
+        
+        body {
+            background-color: var(--dark-bg); /*цвет фона всей страницы*/
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+        
+        header {
+            position: relative;
+            height: 70vh;
+            overflow: hidden;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+        
+        #header-video { /*# для элемента с id="header-video"*/
+            width: 100%;
+            height: 100%;
+            object-fit: cover;/* Обрезка видео для заполнения контейнера */
+    filter: brightness(0.7); /* Уменьшение яркости на 30% */
+        }
+        
+        .header-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            z-index: 2;
+        }
+        
+        .header-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        
+        .header-content p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(18,18,18,0.8));
+            z-index: 1;
+        }
+        
+        nav {
+            background-color: var(--dark-surface);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px var(--shadow);
+            backdrop-filter: blur(10px);
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        
+        nav li {
+            margin: 0 1.8rem;
+            position: relative;
+        }
+        
+        nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav a::before { /*нимированного подчеркивания ссылок в навигации.*/
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        nav a:hover::before {
+            width: 100%;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2.5rem;
+        }
+        
+        section {
+            background-color: var(--dark-card);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 8px 24px var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px var(--shadow);
+        }
+        
+        h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.8rem;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px var(--shadow-light);
+        }
+        
+        th, td {
+            padding: 15px 18px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease;
+        }
+        
+        th {
+            background-color: var(--dark-surface);
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+        
+        tr:hover td {
+            transform: translateX(5px);
+        }
+        
+        figure {
+            margin: 2rem 0;
+            text-align: center;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        figure:hover {
+            transform: scale(1.01);
+            box-shadow: 0 12px 25px var(--shadow);
+        }
+        
+        figure img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        figure:hover img {
+            transform: scale(1.03);
+        }
+        
+        figcaption {
+            font-style: italic;
+            margin-top: 0.8rem;
+            color: var(--text-secondary);
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 0 0 8px 8px;
+        }
+        
+        aside {
+            background: linear-gradient(135deg, rgba(0, 168, 232, 0.1), rgba(187, 134, 252, 0.05));
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary);
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 4px 12px var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+        
+        aside:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 16px var(--shadow);
+        }
+        
+        aside h3 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+        
+        details {
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px var(--shadow-light);
+        }
+        
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            background-color: var(--dark-surface);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            list-style: none;
+            position: relative;
+        }
+        
+        summary::after {
+            content: '+';
+            position: absolute;
+            right: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        details[open] summary::after {
+            content: '-';
+        }
+        
+        summary:hover {
+            background-color: rgba(0, 168, 232, 0.1);
+            color: var(--primary);
+        }
+        
+        details p {
+            padding: 1.5rem;
+            background-color: rgba(30, 30, 30, 0.7);
+            margin: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        blockquote {
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            font-style: italic;
+            background: rgba(30, 30, 30, 0.5);
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 4px 12px var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+        
+        blockquote:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 16px var(--shadow);
+        }
+        
+        cite {
+            display: block;
+            margin-top: 1rem;
+            font-style: normal;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .progress-container {
+            margin: 1.5rem 0;
+        }
+        
+        progress {
+            width: 100%;
+            height: 12px;
+            border-radius: 6px;
+            border: none;
+            background: var(--dark-surface);
+            overflow: hidden;
+        }
+        
+        progress::-webkit-progress-bar {
+            background: var(--dark-surface);
+            border-radius: 6px;
+        }
+        
+        progress::-webkit-progress-value {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 6px;
+        }
+        
+        progress::-moz-progress-bar {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 6px;
+        }
+        
+        .mini-table {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 1.5rem 0;
+        }
+        
+        .mini-table div {
+            padding: 15px;
+            background: var(--dark-surface);
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px var(--shadow-light);
+        }
+        
+        .mini-table div:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 168, 232, 0.1);
+            box-shadow: 0 8px 15px var(--shadow);
+            color: var(--primary);
+        }
+        
+        footer {
+            background-color: var(--dark-surface);
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            box-shadow: 0 -4px 12px var(--shadow);
+        }
+        
+        footer p {
+            margin: 0.5rem 0;
+        }
+        
+       
+    </style>
+</head>
+<body>
+    <header> 
+        <video id="header-video" autoplay muted loop>
+            <source src="video.mp4" type="video/mp4">
+            
+        </video>
+        <div class="header-content">
+            <h1>Mercedes-Benz: Инновации и роскошь</h1>
+            <p>Сравнительный анализ трех популярных моделей Mercedes-Benz</p>
+        </div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#eqs">Mercedes-Benz EQS</a></li>
+            <li><a href="#gle">Mercedes-Benz GLE</a></li>
+            <li><a href="#c-class">Mercedes-Benz C-Class</a></li>
+            <li><a href="#comparison">Сравнительная таблица</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <section id="eqs">
+            <h2>Mercedes-Benz EQS</h2>
+            
+            <figure>
+                <img src="Mercedes-Benz_EQS.avif" alt="Mercedes-Benz EQS">
+                <figcaption>Mercedes-Benz EQS - флагманский электрический седан</figcaption>
+            </figure>
+            
+            <table>
+                <tr>
+                    <th>Характеристика</th>
+                    <th>Значение</th>
+                </tr>
+                <tr>
+                    <td>Тип двигателя</td>
+                    <td>Электрический</td>
+                </tr>
+                <tr>
+                    <td>Расход топлива (эквивалент)</td>
+                    <td>19.3-20.0 кВт·ч/100 км</td>
+                </tr>
+                <tr>
+                    <td>Тип КПП</td>
+                    <td>Автоматическая (1-скоростная)</td>
+                </tr>
+                <tr>
+                    <td>Количество передач</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Габариты (Д×Ш×В)</td>
+                    <td>5216×1926×1512 мм</td>
+                </tr>
+                <tr>
+                    <td>Объем багажника</td>
+                    <td>610 л</td>
+                </tr>
+                <tr>
+                    <td>Разгон до 100 км/ч</td>
+                    <td>4.3-6.2 сек (в зависимости от модификации)</td>
+                </tr>
+                <tr>
+                    <td>Максимальная скорость</td>
+                    <td>210-250 км/ч</td>
+                </tr>
+                <tr>
+                    <td>Начальная цена</td>
+                    <td>от 6 900 000 руб.</td>
+                </tr>
+                <tr>
+                    <td>Wi-Fi и Bluetooth</td>
+                    <td>Есть</td>
+                </tr>
+                <tr>
+                    <td>Тормозная система</td>
+                    <td>Дисковые тормоза (вентилируемые)</td>
+                </tr>
+                <tr>
+                    <td>Гарантийный срок</td>
+                    <td>3 года без ограничения пробега</td>
+                </tr>
+            </table>
+            
+            <details>
+                <summary>Системы безопасности</summary>
+                <p>ABS, ESP, 9 подушек безопасности, система мониторинга слепых зон, ассистент движения по полосе, ассистент предотвращения столкновений, адаптивный круиз-контроль, система распознавания дорожных знаков.</p>
+            </details>
+            
+            <div class="progress-container">
+                <p>Рейтинг безопасности Euro NCAP: 5 звезд</p>
+                <progress value="100" max="100"></progress>
+            </div>
+            
+            <aside>
+                <h3>Интересный факт</h3>
+                <p>Mercedes-Benz EQS имеет самый низкий коэффициент аэродинамического сопротивления среди всех серийных автомобилей в мире - всего 0.20 Cd.</p>
+            </aside>
+            
+            <blockquote>
+                "EQS - это не просто электрический автомобиль, это видение будущего мобильности. Салон с гиперэкраном MBUX Hyperscreen производит неизгладимое впечатление."
+                <cite>— Автообозреватель Auto Bild</cite>
+            </blockquote>
+            
+            <div class="mini-table">
+                <div>Запас хода: 770-784 км (по WLTP)</div>
+                <div>Мощность: 245-380 кВт</div>
+                <div>Крутящий момент: 568-855 Н·м</div>
+                <div>Время зарядки (DC): 31 мин (10-80%)</div>
+            </div>
+        </section>
+        
+        <section id="gle">
+            <h2>Mercedes-Benz GLE</h2>
+            
+            <figure>
+                <img src="Mercedes-Benz_GLE.avif" alt="Mercedes-Benz GLE">
+                <figcaption>Mercedes-Benz GLE - премиальный SUV</figcaption>
+            </figure>
+            
+            <table>
+                <tr>
+                    <th>Характеристика</th>
+                    <th>Значение</th>
+                </tr>
+                <tr>
+                    <td>Тип двигателя</td>
+                    <td>Бензиновый, Дизельный, Гибридный</td>
+                </tr>
+                <tr>
+                    <td>Расход топлива</td>
+                    <td>8.3-11.5 л/100 км</td>
+                </tr>
+                <tr>
+                    <td>Тип КПП</td>
+                    <td>Автоматическая (9G-TRONIC)</td>
+                </tr>
+                <tr>
+                    <td>Количество передач</td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td>Габариты (Д×Ш×В)</td>
+                    <td>4924×1947×1772 мм</td>
+                </tr>
+                <tr>
+                    <td>Объем багажника</td>
+                    <td>630-2050 л</td>
+                </tr>
+                <tr>
+                    <td>Разгон до 100 км/ч</td>
+                    <td>5.3-7.6 сек</td>
+                </tr>
+                <tr>
+                    <td>Максимальная скорость</td>
+                    <td>210-250 км/ч</td>
+                </tr>
+                <tr>
+                    <td>Начальная цена</td>
+                    <td>от 5 200 000 руб.</td>
+                </tr>
+                <tr>
+                    <td>Wi-Fi и Bluetooth</td>
+                    <td>Есть</td>
+                </tr>
+                <tr>
+                    <td>Тормозная система</td>
+                    <td>Дисковые тормоза (вентилируемые)</td>
+                </tr>
+                <tr>
+                    <td>Гарантийный срок</td>
+                    <td>3 года без ограничения пробега</td>
+                </tr>
+            </table>
+            
+            <details>
+                <summary>Системы безопасности</summary>
+                <p>ABS, ESP, 7 подушек безопасности, система мониторинга слепых зон, ассистент движения по полосе, ассистент предотвращения столкновений, адаптивный круиз-контроль, система распознавания усталости водителя.</p>
+            </details>
+            
+            <div class="progress-container">
+                <p>Рейтинг безопасности Euro NCAP: 5 звезд</p>
+                <progress value="100" max="100"></progress>
+            </div>
+            
+            <aside>
+                <h3>Интересный факт</h3>
+                <p>GLE стал первым автомобилем Mercedes-Benz, получившим систему E-ACTIVE BODY CONTROL с функцией сканирования дорожного полотна, которая адаптирует подвеску к неровностям дороги.</p>
+            </aside>
+            
+            <blockquote>
+                "GLE сочетает в себе комфорт седана и практичность внедорожника. Система MBUX с голосовым управлением поражает своей интуитивностью."
+                <cite>— Эксперт журнала "За рулем"</cite>
+            </blockquote>
+            
+            <div class="mini-table">
+                <div>Клиренс: 180-270 мм (с пневмоподвеской)</div>
+                <div>Мощность: 200-320 кВт</div>
+                <div>Крутящий момент: 400-700 Н·м</div>
+                <div>Буксировочная способность: до 3500 кг</div>
+            </div>
+        </section>
+        
+        <section id="c-class">
+            <h2>Mercedes-Benz C-Class</h2>
+            
+            <figure>
+                <img src="Mercedes-Benz_C-Class.avif" alt="Mercedes-Benz C-Class">
+                <figcaption>Mercedes-Benz C-Class - бизнес-седан</figcaption>
+            </figure>
+            
+            <table>
+                <tr>
+                    <th>Характеристика</th>
+                    <th>Значение</th>
+                </tr>
+                <tr>
+                    <td>Тип двигателя</td>
+                    <td>Бензиновый, Дизельный</td>
+                </tr>
+                <tr>
+                    <td>Расход топлива</td>
+                    <td>6.0-8.5 л/100 км</td>
+                </tr>
+                <tr>
+                    <td>Тип КПП</td>
+                    <td>Автоматическая (9G-TRONIC)</td>
+                </tr>
+                <tr>
+                    <td>Количество передач</td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td>Габариты (Д×Ш×В)</td>
+                    <td>4751×1820×1438 мм</td>
+                </tr>
+                <tr>
+                    <td>Объем багажника</td>
+                    <td>455 л</td>
+                </tr>
+                <tr>
+                    <td>Разгон до 100 км/ч</td>
+                    <td>4.4-9.1 сек</td>
+                </tr>
+                <tr>
+                    <td>Максимальная скорость</td>
+                    <td>210-250 км/ч</td>
+                </tr>
+                <tr>
+                    <td>Начальная цена</td>
+                    <td>от 3 800 000 руб.</td>
+                </tr>
+                <tr>
+                    <td>Wi-Fi и Bluetooth</td>
+                    <td>Есть</td>
+                </tr>
+                <tr>
+                    <td>Тормозная система</td>
+                    <td>Дисковые тормоза</td>
+                </tr>
+                <tr>
+                    <td>Гарантийный срок</td>
+                    <td>3 года без ограничения пробега</td>
+                </tr>
+            </table>
+            
+            <details>
+                <summary>Системы безопасности</summary>
+                <p>ABS, ESP, 7 подушек безопасности, система мониторинга слепых зон, ассистент движения по полосе, ассистент предотвращения столкновений, система распознавания дорожных знаков, камера заднего вида.</p>
+            </details>
+            
+            <div class="progress-container">
+                <p>Рейтинг безопасности Euro NCAP: 5 звезд</p>
+                <progress value="100" max="100"></progress>
+            </div>
+            
+            <aside>
+                <h3>Интересный факт</h3>
+                <p>Новое поколение C-Class (W206) получило технологические решения от флагманского S-Class, включая систему дополненной реальности для навигации.</p>
+            </aside>
+            
+            <blockquote>
+                "C-Class в новом кузове стал еще технологичнее и комфортнее. По оснащению он не уступает моделям более высокого класса, оставаясь при этом доступным."
+                <cite>— Обозреватель автомобильного портала "Drive.ru"</cite>
+            </blockquote>
+            
+            <div class="mini-table">
+                <div>Колесная база: 2865 мм</div>
+                <div>Мощность: 125-255 кВт</div>
+                <div>Крутящий момент: 250-500 Н·м</div>
+                <div>Снаряженная масса: 1615-1820 кг</div>
+            </div>
+        </section>
+        
+        <section id="comparison">
+            <h2>Сравнительная таблица характеристик</h2>
+            
+            <table>
+                <tr>
+                    <th>Характеристика</th>
+                    <th>EQS</th>
+                    <th>GLE</th>
+                    <th>C-Class</th>
+                </tr>
+                <tr>
+                    <td>Тип двигателя</td>
+                    <td>Электрический</td>
+                    <td>Бензин/Дизель/Гибрид</td>
+                    <td>Бензин/Дизель</td>
+                </tr>
+                <tr>
+                    <td>Расход топлива/энергии</td>
+                    <td>19.3-20.0 кВт·ч/100 км</td>
+                    <td>8.3-11.5 л/100 км</td>
+                    <td>6.0-8.5 л/100 км</td>
+                </tr>
+                <tr>
+                    <td>Тип КПП</td>
+                    <td>Автоматическая (1-скоростная)</td>
+                    <td>Автоматическая (9-ступ.)</td>
+                    <td>Автоматическая (9-ступ.)</td>
+                </tr>
+                <tr>
+                    <td>Разгон до 100 км/ч</td>
+                    <td>4.3-6.2 сек</td>
+                    <td>5.3-7.6 сек</td>
+                    <td>4.4-9.1 сек</td>
+                </tr>
+                <tr>
+                    <td>Максимальная скорость</td>
+                    <td>210-250 км/ч</td>
+                    <td>210-250 км/ч</td>
+                    <td>210-250 км/ч</td>
+                </tr>
+                <tr>
+                    <td>Начальная цена</td>
+                    <td>от 6 900 000 руб.</td>
+                    <td>от 5 200 000 руб.</td>
+                    <td>от 3 800 000 руб.</td>
+                </tr>
+                <tr>
+                    <td>Гарантийный срок</td>
+                    <td>3 года</td>
+                    <td>3 года</td>
+                    <td>3 года</td>
+                </tr>
+                <tr>
+                    <td>Рейтинг безопасности</td>
+                    <td>5 звезд (Euro NCAP)</td>
+                    <td>5 звезд (Euro NCAP)</td>
+                    <td>5 звезд (Euro NCAP)</td>
+                </tr>
+            </table>
+            
+            <details>
+                <summary>Дата выпуска текущего поколения</summary>
+                <p><time datetime="2021-04">Апрель 2021</time> - Mercedes-Benz EQS</p>
+                <p><time datetime="2019-01">Январь 2019</time> - Mercedes-Benz GLE</p>
+                <p><time datetime="2021-02">Февраль 2021</time> - Mercedes-Benz C-Class</p>
+            </details>
+        </section>
+    </div>
+    
+    <footer>
+        <p>© 2025 Сравнительный анализ автомобилей Mercedes-Benz проведённый TalkoProduction. Все права защищены.</p>
+        <p>Информация актуальна на <time datetime="2025-09-27">27 сентября 2025 года</time>.</p>
+    </footer>
+
+   
+</body>
+</html>
